@@ -6,17 +6,21 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.types import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils import executor
 import aiosqlite
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters.state import State, StatesGroup
 from dotenv import load_dotenv
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-ADMIN_IDS = set(int(x) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip())
+ADMIN_IDS = set(int(x) for x in os.getenv("ADMIN_IDS","").split(",") if x.strip())
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+storage = MemoryStorage()
 bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher(bot)
+dp = Dispatcher(bot, storage=storage)
 
 DB_FILE = "quizbot.db"
 
@@ -26,6 +30,10 @@ with open("languages.json", "r", encoding="utf-8") as f:
 
 # In-memory user language store
 user_lang = {}
+
+### --- FSM State for quiz ---
+class QuizStates(StatesGroup):
+    in_quiz = State()
 
 ### --- Database helpers ---
 async def init_db():
@@ -89,12 +97,11 @@ def get_language_keyboard():
 def get_main_menu(user_id):
     lang_code = user_lang.get(user_id, "en")
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=LANG_DATA[lang_code]["create_quiz"], callback_data="create_quiz")],
-        [InlineKeyboardButton(text=LANG_DATA[lang_code]["language"], callback_data="change_lang")]
+        [InlineKeyboardButton(text=LANG_DATA[lang_code].get("create_quiz","Create Quiz"), callback_data="create_quiz")],
+        [InlineKeyboardButton(text=LANG_DATA[lang_code].get("language","Change Language"), callback_data="change_lang")]
     ])
     return kb
 
-### --- Option keyboard for quiz questions ---
 def make_options_kb(qid, options):
     kb = InlineKeyboardMarkup()
     for i, opt in enumerate(options):
@@ -107,33 +114,36 @@ async def cmd_start(msg: types.Message):
     user_id = msg.from_user.id
     if user_id not in user_lang:
         user_lang[user_id] = "en"
-        await msg.reply(LANG_DATA["en"]["choose_language"], reply_markup=get_language_keyboard())
+        await msg.reply(LANG_DATA["en"].get("choose_language", "Choose your language:"), reply_markup=get_language_keyboard())
     else:
-        await msg.reply(LANG_DATA[user_lang[user_id]]["welcome"], reply_markup=get_main_menu(user_id))
+        await msg.reply(LANG_DATA[user_lang[user_id]].get("welcome","Welcome!"), reply_markup=get_main_menu(user_id))
 
 @dp.callback_query_handler(lambda c: c.data.startswith("lang_"))
 async def set_language(cb: types.CallbackQuery):
     user_id = cb.from_user.id
     lang_code = cb.data.split("_")[1]
     user_lang[user_id] = lang_code
-    await cb.message.edit_text(LANG_DATA[lang_code]["welcome"], reply_markup=get_main_menu(user_id))
+    await cb.message.edit_text(LANG_DATA[lang_code].get("welcome","Welcome!"), reply_markup=get_main_menu(user_id))
     await cb.answer()
 
 @dp.callback_query_handler(lambda c: c.data == "change_lang")
 async def change_language(cb: types.CallbackQuery):
     user_id = cb.from_user.id
-    await cb.message.edit_text(LANG_DATA[user_lang.get(user_id, "en")]["choose_language"], reply_markup=get_language_keyboard())
+    await cb.message.edit_text(LANG_DATA[user_lang.get(user_id,"en")].get("choose_language","Choose your language:"), reply_markup=get_language_keyboard())
     await cb.answer()
 
-### --- Create Quiz button handler ---
 @dp.callback_query_handler(lambda c: c.data == "create_quiz")
 async def callback_create_quiz(cb: types.CallbackQuery):
     user_id = cb.from_user.id
-    lang_code = user_lang.get(user_id, "en")
-    await cb.message.answer(LANG_DATA[lang_code]["create_quiz_instructions"])
-    await cb.answer()  # remove loading spinner
+    lang_code = user_lang.get(user_id,"en")
+    instructions = LANG_DATA[lang_code].get(
+        "create_quiz_instructions",
+        "Use /create_quiz <Quiz Title> and /add_question to add questions."
+    )
+    await cb.message.answer(instructions)
+    await cb.answer()
 
-### --- Create quiz (unlimited) ---
+### --- Create quiz ---
 @dp.message_handler(commands=["create_quiz"])
 async def cmd_create_quiz(msg: types.Message):
     user_id = msg.from_user.id
@@ -141,7 +151,6 @@ async def cmd_create_quiz(msg: types.Message):
     if not args:
         await msg.reply("Usage: /create_quiz <Quiz Title>")
         return
-
     title = args
     async with aiosqlite.connect(DB_FILE) as db:
         await db.execute("INSERT INTO quizzes (user_id, title) VALUES (?, ?)", (user_id, title))
@@ -152,10 +161,8 @@ async def cmd_create_quiz(msg: types.Message):
                     f"/add_question {quiz_id} | Question text | opt1 ; opt2 ; ... | answer_index(0-based)\n"
                     f"Each question must have at least 2 options.")
 
-### --- Add question with at least 2 options ---
 @dp.message_handler(commands=["add_question"])
 async def cmd_add_question(msg: types.Message):
-    user_id = msg.from_user.id
     raw = msg.get_args().strip()
     if not raw:
         await msg.reply("Usage:\n/add_question <quiz_id> | question text | opt1 ; opt2 ; ... | answer_index(0-based)")
@@ -170,17 +177,15 @@ async def cmd_add_question(msg: types.Message):
             await msg.reply("❌ Each question must have at least 2 options.")
             return
     except:
-        await msg.reply("Failed to parse. Make sure format is correct.\nExample:\n"
-                        "/add_question 1 | What is 2+2? | 1 ; 2 ; 4 ; 3 | 2")
+        await msg.reply("Failed to parse. Example:\n/add_question 1 | What is 2+2? | 1 ; 2 ; 4 ; 3 | 2")
         return
-
     async with aiosqlite.connect(DB_FILE) as db:
         await db.execute("INSERT INTO questions (quiz_id, question, options, answer_index) VALUES (?, ?, ?, ?)",
                          (quiz_id, question, json.dumps(options), answer_index))
         await db.commit()
     await msg.reply("✅ Question added successfully.")
 
-### --- Take quiz: require min 10 quizzes ---
+### --- Take quiz (min 10 quizzes required) ---
 @dp.message_handler(commands=["take"])
 async def cmd_take(msg: types.Message):
     user_id = msg.from_user.id
@@ -188,8 +193,9 @@ async def cmd_take(msg: types.Message):
     if not args:
         await msg.reply("Usage: /take <quiz_id>")
         return
+    quiz_id = int(args)
 
-    # Check if user has at least 10 quizzes
+    # Check min 10 quizzes for user
     async with aiosqlite.connect(DB_FILE) as db:
         cur = await db.execute("SELECT COUNT(*) FROM quizzes WHERE user_id=?", (user_id,))
         quiz_count = (await cur.fetchone())[0]
@@ -197,8 +203,77 @@ async def cmd_take(msg: types.Message):
         await msg.reply(f"❌ You must create at least 10 quizzes before taking any quiz. Currently: {quiz_count}")
         return
 
-    # existing take quiz logic goes here...
-    # load quiz, questions, options, manage state, handle answers etc.
+    # Load quiz questions
+    async with aiosqlite.connect(DB_FILE) as db:
+        cur = await db.execute("SELECT title FROM quizzes WHERE id=?", (quiz_id,))
+        quiz = await cur.fetchone()
+        if not quiz:
+            await msg.reply("Quiz not found.")
+            return
+        cur = await db.execute("SELECT id, question, options, answer_index FROM questions WHERE quiz_id=?", (quiz_id,))
+        rows = await cur.fetchall()
+    if not rows:
+        await msg.reply("This quiz has no questions yet.")
+        return
+
+    # Prepare question list
+    qlist = []
+    for r in rows:
+        qid, qtext, qopts, ans_index = r
+        qlist.append({"qid": qid, "text": qtext, "options": json.loads(qopts), "answer_index": ans_index})
+
+    # Save in FSM state
+    state = dp.current_state(chat=msg.chat.id, user=user_id)
+    await state.update_data(current_quiz=quiz_id, questions=qlist, pointer=0, correct=0, total=len(qlist))
+
+    # Send first question
+    first = qlist[0]
+    kb = make_options_kb(first["qid"], first["options"])
+    await msg.reply(f"Starting quiz: *{quiz[0]}*\nQuestion 1/{len(qlist)}:\n{first['text']}", reply_markup=kb, parse_mode=ParseMode.MARKDOWN)
+    await QuizStates.in_quiz.set()
+
+### --- Answer callback ---
+@dp.callback_query_handler(lambda c: c.data and c.data.startswith("ans|"), state=QuizStates.in_quiz)
+async def process_answer(cb: types.CallbackQuery, state: FSMContext):
+    await cb.answer()
+    parts = cb.data.split("|")
+    qid = int(parts[1])
+    chosen = int(parts[2])
+
+    data = await state.get_data()
+    questions = data["questions"]
+    pointer = data["pointer"]
+    correct = data["correct"]
+    total = data["total"]
+
+    # Current question
+    cur_q = questions[pointer]
+    is_correct = (chosen == cur_q["answer_index"])
+    if is_correct:
+        correct += 1
+    pointer += 1
+
+    await state.update_data(pointer=pointer, correct=correct)
+
+    # Respond to user
+    lang_code = user_lang.get(cb.from_user.id,"en")
+    msg_text = LANG_DATA[lang_code].get("correct","✅ Correct!") if is_correct else \
+               f"{LANG_DATA[lang_code].get('wrong','❌ Wrong.')} {cur_q['options'][cur_q['answer_index']]}"
+    await cb.message.reply(msg_text)
+
+    # Next question or finish
+    if pointer >= total:
+        # Save attempt
+        async with aiosqlite.connect(DB_FILE) as db:
+            await db.execute("INSERT INTO attempts (user_id, username, quiz_id, score, total) VALUES (?, ?, ?, ?, ?)",
+                             (cb.from_user.id, cb.from_user.username or "", data["current_quiz"], correct, total))
+            await db.commit()
+        await cb.message.reply(f"Quiz finished! Your score: *{correct}/{total}*", parse_mode=ParseMode.MARKDOWN)
+        await state.finish()
+    else:
+        next_q = questions[pointer]
+        kb = make_options_kb(next_q["qid"], next_q["options"])
+        await cb.message.reply(f"Question {pointer+1}/{total}:\n{next_q['text']}", reply_markup=kb)
 
 ### --- Startup ---
 async def on_startup(dp):
