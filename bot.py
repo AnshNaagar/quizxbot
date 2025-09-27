@@ -249,7 +249,9 @@ async def callback_leaderboard(cb: types.CallbackQuery):
 async def on_startup():
     await init_db()
 
-if __name__=="__main__":
-    asyncio.run(on_startup())
-    from aiogram import executor
-    executor.start_polling(dp)
+async def main():
+    await on_startup()
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
