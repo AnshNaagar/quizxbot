@@ -1,22 +1,182 @@
 {
-  "en": {"choose_language": "Please choose your language:", "welcome": "Welcome!", "create_quiz": "Create Quiz", "language": "Change Language"},
-  "hi": {"choose_language": "कृपया अपनी भाषा चुनें:", "welcome": "स्वागत है!", "create_quiz": "क्विज़ बनाएं", "language": "भाषा बदलें"},
-  "es": {"choose_language": "Por favor, elige tu idioma:", "welcome": "¡Bienvenido!", "create_quiz": "Crear Quiz", "language": "Cambiar idioma"},
-  "fr": {"choose_language": "Veuillez choisir votre langue :", "welcome": "Bienvenue!", "create_quiz": "Créer Quiz", "language": "Changer de langue"},
-  "de": {"choose_language": "Bitte wählen Sie Ihre Sprache:", "welcome": "Willkommen!", "create_quiz": "Quiz erstellen", "language": "Sprache ändern"},
-  "zh": {"choose_language": "请选择你的语言：", "welcome": "欢迎！", "create_quiz": "创建测验", "language": "更改语言"},
-  "ar": {"choose_language": "يرجى اختيار لغتك:", "welcome": "أهلا بك!", "create_quiz": "إنشاء اختبار", "language": "تغيير اللغة"},
-  "ru": {"choose_language": "Пожалуйста, выберите язык:", "welcome": "Добро пожаловать!", "create_quiz": "Создать викторину", "language": "Сменить язык"},
-  "ja": {"choose_language": "言語を選択してください：", "welcome": "ようこそ！", "create_quiz": "クイズを作成", "language": "言語を変更"},
-  "pt": {"choose_language": "Por favor, escolha seu idioma:", "welcome": "Bem-vindo!", "create_quiz": "Criar Quiz", "language": "Mudar idioma"},
-  "bn": {"choose_language": "আপনার ভাষা নির্বাচন করুন:", "welcome": "স্বাগতম!", "create_quiz": "কুইজ তৈরি করুন", "language": "ভাষা পরিবর্তন করুন"},
-  "pa": {"choose_language": "ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ:", "welcome": "ਸਵਾਗਤ ਹੈ!", "create_quiz": "ਕੁਇਜ਼ ਬਣਾਓ", "language": "ਭਾਸ਼ਾ ਬਦਲੋ"},
-  "ko": {"choose_language": "언어를 선택하세요:", "welcome": "환영합니다!", "create_quiz": "퀴즈 만들기", "language": "언어 변경"},
-  "it": {"choose_language": "Si prega di scegliere la tua lingua:", "welcome": "Benvenuto!", "create_quiz": "Crea Quiz", "language": "Cambia lingua"},
-  "tr": {"choose_language": "Lütfen dilinizi seçin:", "welcome": "Hoşgeldiniz!", "create_quiz": "Quiz Oluştur", "language": "Dili değiştir"},
-  "vi": {"choose_language": "Vui lòng chọn ngôn ngữ:", "welcome": "Chào mừng!", "create_quiz": "Tạo Quiz", "language": "Thay đổi ngôn ngữ"},
-  "th": {"choose_language": "โปรดเลือกภาษาของคุณ:", "welcome": "ยินดีต้อนรับ!", "create_quiz": "สร้างแบบทดสอบ", "language": "เปลี่ยนภาษา"},
-  "id": {"choose_language": "Silakan pilih bahasa Anda:", "welcome": "Selamat datang!", "create_quiz": "Buat Quiz", "language": "Ganti bahasa"},
-  "fa": {"choose_language": "لطفاً زبان خود را انتخاب کنید:", "welcome": "خوش آمدید!", "create_quiz": "ایجاد آزمون", "language": "تغییر زبان"},
-  "ur": {"choose_language": "براہ کرم اپنی زبان منتخب کریں:", "welcome": "خوش آمدید!", "create_quiz": "کویز بنائیں", "language": "زبان تبدیل کریں"}
+  "en": {
+    "welcome": "Welcome to QuizBot!",
+    "choose_language": "Please choose your language:",
+    "create_quiz": "Create Quiz",
+    "create_quiz_instructions": "Use /create_quiz <Quiz Title> and /add_question to add questions.",
+    "language": "Change Language",
+    "correct": "✅ Correct!",
+    "wrong": "❌ Wrong. Correct answer:"
+  },
+  "hi": {
+    "welcome": "क्विज़बॉट में आपका स्वागत है!",
+    "choose_language": "कृपया अपनी भाषा चुनें:",
+    "create_quiz": "क्विज़ बनाएं",
+    "create_quiz_instructions": "/create_quiz <क्विज़ शीर्षक> और /add_question का उपयोग करके प्रश्न जोड़ें।",
+    "language": "भाषा बदलें",
+    "correct": "✅ सही!",
+    "wrong": "❌ गलत। सही उत्तर:"
+  },
+  "es": {
+    "welcome": "¡Bienvenido a QuizBot!",
+    "choose_language": "Por favor, elige tu idioma:",
+    "create_quiz": "Crear Quiz",
+    "create_quiz_instructions": "Usa /create_quiz <Título del Quiz> y /add_question para agregar preguntas.",
+    "language": "Cambiar idioma",
+    "correct": "✅ ¡Correcto!",
+    "wrong": "❌ Incorrecto. Respuesta correcta:"
+  },
+  "fr": {
+    "welcome": "Bienvenue sur QuizBot !",
+    "choose_language": "Veuillez choisir votre langue :",
+    "create_quiz": "Créer Quiz",
+    "create_quiz_instructions": "Utilisez /create_quiz <Titre du Quiz> et /add_question pour ajouter des questions.",
+    "language": "Changer de langue",
+    "correct": "✅ Correct !",
+    "wrong": "❌ Faux. Réponse correcte :"
+  },
+  "de": {
+    "welcome": "Willkommen bei QuizBot!",
+    "choose_language": "Bitte wählen Sie Ihre Sprache:",
+    "create_quiz": "Quiz erstellen",
+    "create_quiz_instructions": "Verwenden Sie /create_quiz <Quiz-Titel> und /add_question, um Fragen hinzuzufügen.",
+    "language": "Sprache ändern",
+    "correct": "✅ Richtig!",
+    "wrong": "❌ Falsch. Richtige Antwort:"
+  },
+  "zh": {
+    "welcome": "欢迎使用 QuizBot！",
+    "choose_language": "请选择您的语言：",
+    "create_quiz": "创建测验",
+    "create_quiz_instructions": "使用 /create_quiz <测验标题> 和 /add_question 添加问题。",
+    "language": "更改语言",
+    "correct": "✅ 正确！",
+    "wrong": "❌ 错误。正确答案："
+  },
+  "ar": {
+    "welcome": "مرحبًا بك في QuizBot!",
+    "choose_language": "يرجى اختيار لغتك:",
+    "create_quiz": "إنشاء اختبار",
+    "create_quiz_instructions": "استخدم /create_quiz <عنوان الاختبار> و /add_question لإضافة الأسئلة.",
+    "language": "تغيير اللغة",
+    "correct": "✅ صحيح!",
+    "wrong": "❌ خطأ. الإجابة الصحيحة:"
+  },
+  "ru": {
+    "welcome": "Добро пожаловать в QuizBot!",
+    "choose_language": "Пожалуйста, выберите язык:",
+    "create_quiz": "Создать викторину",
+    "create_quiz_instructions": "Используйте /create_quiz <Название викторины> и /add_question для добавления вопросов.",
+    "language": "Сменить язык",
+    "correct": "✅ Верно!",
+    "wrong": "❌ Неверно. Правильный ответ:"
+  },
+  "ja": {
+    "welcome": "QuizBotへようこそ！",
+    "choose_language": "言語を選択してください：",
+    "create_quiz": "クイズ作成",
+    "create_quiz_instructions": "/create_quiz <クイズタイトル> と /add_question を使用して質問を追加してください。",
+    "language": "言語を変更",
+    "correct": "✅ 正解！",
+    "wrong": "❌ 不正解。正しい答え："
+  },
+  "pt": {
+    "welcome": "Bem-vindo ao QuizBot!",
+    "choose_language": "Por favor, escolha seu idioma:",
+    "create_quiz": "Criar Quiz",
+    "create_quiz_instructions": "Use /create_quiz <Título do Quiz> e /add_question para adicionar perguntas.",
+    "language": "Mudar idioma",
+    "correct": "✅ Correto!",
+    "wrong": "❌ Errado. Resposta correta:"
+  },
+  "bn": {
+    "welcome": "QuizBot-এ স্বাগতম!",
+    "choose_language": "অনুগ্রহ করে আপনার ভাষা নির্বাচন করুন:",
+    "create_quiz": "কুইজ তৈরি করুন",
+    "create_quiz_instructions": "/create_quiz <কুইজ শিরোনাম> এবং /add_question ব্যবহার করে প্রশ্ন যোগ করুন।",
+    "language": "ভাষা পরিবর্তন",
+    "correct": "✅ সঠিক!",
+    "wrong": "❌ ভুল। সঠিক উত্তর:"
+  },
+  "pa": {
+    "welcome": "ਕਵਿਜ਼ਬੋਟ ਵਿੱਚ ਸੁਆਗਤ ਹੈ!",
+    "choose_language": "ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ:",
+    "create_quiz": "ਕਵਿਜ਼ ਬਣਾਓ",
+    "create_quiz_instructions": "/create_quiz <ਕਵਿਜ਼ ਸਿਰਲੇਖ> ਅਤੇ /add_question ਨਾਲ ਪ੍ਰਸ਼ਨ ਜੋੜੋ।",
+    "language": "ਭਾਸ਼ਾ ਬਦਲੋ",
+    "correct": "✅ ਸਹੀ!",
+    "wrong": "❌ ਗਲਤ। ਸਹੀ ਉੱਤਰ:"
+  },
+  "ko": {
+    "welcome": "QuizBot에 오신 것을 환영합니다!",
+    "choose_language": "언어를 선택하세요:",
+    "create_quiz": "퀴즈 만들기",
+    "create_quiz_instructions": "/create_quiz <퀴즈 제목> 및 /add_question을 사용하여 질문을 추가하세요.",
+    "language": "언어 변경",
+    "correct": "✅ 정답!",
+    "wrong": "❌ 오답. 정답:"
+  },
+  "it": {
+    "welcome": "Benvenuto su QuizBot!",
+    "choose_language": "Seleziona la tua lingua:",
+    "create_quiz": "Crea Quiz",
+    "create_quiz_instructions": "Usa /create_quiz <Titolo Quiz> e /add_question per aggiungere domande.",
+    "language": "Cambia lingua",
+    "correct": "✅ Corretto!",
+    "wrong": "❌ Sbagliato. Risposta corretta:"
+  },
+  "tr": {
+    "welcome": "QuizBot'e hoş geldiniz!",
+    "choose_language": "Lütfen dilinizi seçin:",
+    "create_quiz": "Quiz Oluştur",
+    "create_quiz_instructions": "/create_quiz <Quiz Başlığı> ve /add_question ile sorular ekleyin.",
+    "language": "Dili değiştir",
+    "correct": "✅ Doğru!",
+    "wrong": "❌ Yanlış. Doğru cevap:"
+  },
+  "vi": {
+    "welcome": "Chào mừng đến với QuizBot!",
+    "choose_language": "Vui lòng chọn ngôn ngữ của bạn:",
+    "create_quiz": "Tạo Quiz",
+    "create_quiz_instructions": "Sử dụng /create_quiz <Tiêu đề Quiz> và /add_question để thêm câu hỏi.",
+    "language": "Thay đổi ngôn ngữ",
+    "correct": "✅ Chính xác!",
+    "wrong": "❌ Sai. Đáp án đúng:"
+  },
+  "th": {
+    "welcome": "ยินดีต้อนรับสู่ QuizBot!",
+    "choose_language": "โปรดเลือกภาษา:",
+    "create_quiz": "สร้างแบบทดสอบ",
+    "create_quiz_instructions": "ใช้ /create_quiz <ชื่อแบบทดสอบ> และ /add_question เพื่อเพิ่มคำถาม",
+    "language": "เปลี่ยนภาษา",
+    "correct": "✅ ถูกต้อง!",
+    "wrong": "❌ ผิด. คำตอบที่ถูกต้อง:"
+  },
+  "id": {
+    "welcome": "Selamat datang di QuizBot!",
+    "choose_language": "Silakan pilih bahasa Anda:",
+    "create_quiz": "Buat Quiz",
+    "create_quiz_instructions": "Gunakan /create_quiz <Judul Quiz> dan /add_question untuk menambahkan pertanyaan.",
+    "language": "Ganti bahasa",
+    "correct": "✅ Benar!",
+    "wrong": "❌ Salah. Jawaban yang benar:"
+  },
+  "fa": {
+    "welcome": "به QuizBot خوش آمدید!",
+    "choose_language": "لطفاً زبان خود را انتخاب کنید:",
+    "create_quiz": "ایجاد آزمون",
+    "create_quiz_instructions": "از /create_quiz <عنوان آزمون> و /add_question برای اضافه کردن سوالات استفاده کنید.",
+    "language": "تغییر زبان",
+    "correct": "✅ درست!",
+    "wrong": "❌ اشتباه. پاسخ درست:"
+  },
+  "ur": {
+    "welcome": "QuizBot میں خوش آمدید!",
+    "choose_language": "براہ کرم اپنی زبان منتخب کریں:",
+    "create_quiz": "کویز بنائیں",
+    "create_quiz_instructions": "/create_quiz <کویز عنوان> اور /add_question استعمال کریں تاکہ سوالات شامل کریں۔",
+    "language": "زبان تبدیل کریں",
+    "correct": "✅ درست!",
+    "wrong": "❌ غلط۔ درست جواب:"
+  }
 }
