@@ -117,13 +117,23 @@ async def set_language(cb: types.CallbackQuery):
     lang_code = cb.data.split("_")[1]
     user_lang[user_id] = lang_code
     await cb.message.edit_text(LANG_DATA[lang_code]["welcome"], reply_markup=get_main_menu(user_id))
+    await cb.answer()
 
 @dp.callback_query_handler(lambda c: c.data == "change_lang")
 async def change_language(cb: types.CallbackQuery):
     user_id = cb.from_user.id
     await cb.message.edit_text(LANG_DATA[user_lang.get(user_id, "en")]["choose_language"], reply_markup=get_language_keyboard())
+    await cb.answer()
 
-### --- Create quiz (unlimited quizzes) ---
+### --- Create Quiz button handler ---
+@dp.callback_query_handler(lambda c: c.data == "create_quiz")
+async def callback_create_quiz(cb: types.CallbackQuery):
+    user_id = cb.from_user.id
+    lang_code = user_lang.get(user_id, "en")
+    await cb.message.answer(LANG_DATA[lang_code]["create_quiz_instructions"])
+    await cb.answer()  # remove loading spinner
+
+### --- Create quiz (unlimited) ---
 @dp.message_handler(commands=["create_quiz"])
 async def cmd_create_quiz(msg: types.Message):
     user_id = msg.from_user.id
