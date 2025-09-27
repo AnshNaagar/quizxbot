@@ -9,8 +9,8 @@
     "heroku",
     "mongodb"
   ],
-  "website": "https://github.com/tumhara-username/tumhara-repo-name",
-  "repository": "https://github.com/tumhara-username/tumhara-repo-name",
+  "website": "https://github.com/AnshNaagar/quizxbot",
+  "repository": "https://github.com/AnshNaagar/quizxbot",
   "success_url": "/",
   "buildpacks": [
     {
