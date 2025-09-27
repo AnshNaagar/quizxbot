@@ -1,0 +1,22 @@
+{
+  "en": {"choose_language": "Please choose your language:", "welcome": "Welcome!", "create_quiz": "Create Quiz", "language": "Change Language"},
+  "hi": {"choose_language": "कृपया अपनी भाषा चुनें:", "welcome": "स्वागत है!", "create_quiz": "क्विज़ बनाएं", "language": "भाषा बदलें"},
+  "es": {"choose_language": "Por favor, elige tu idioma:", "welcome": "¡Bienvenido!", "create_quiz": "Crear Quiz", "language": "Cambiar idioma"},
+  "fr": {"choose_language": "Veuillez choisir votre langue :", "welcome": "Bienvenue!", "create_quiz": "Créer Quiz", "language": "Changer de langue"},
+  "de": {"choose_language": "Bitte wählen Sie Ihre Sprache:", "welcome": "Willkommen!", "create_quiz": "Quiz erstellen", "language": "Sprache ändern"},
+  "zh": {"choose_language": "请选择你的语言：", "welcome": "欢迎！", "create_quiz": "创建测验", "language": "更改语言"},
+  "ar": {"choose_language": "يرجى اختيار لغتك:", "welcome": "أهلا بك!", "create_quiz": "إنشاء اختبار", "language": "تغيير اللغة"},
+  "ru": {"choose_language": "Пожалуйста, выберите язык:", "welcome": "Добро пожаловать!", "create_quiz": "Создать викторину", "language": "Сменить язык"},
+  "ja": {"choose_language": "言語を選択してください：", "welcome": "ようこそ！", "create_quiz": "クイズを作成", "language": "言語を変更"},
+  "pt": {"choose_language": "Por favor, escolha seu idioma:", "welcome": "Bem-vindo!", "create_quiz": "Criar Quiz", "language": "Mudar idioma"},
+  "bn": {"choose_language": "আপনার ভাষা নির্বাচন করুন:", "welcome": "স্বাগতম!", "create_quiz": "কুইজ তৈরি করুন", "language": "ভাষা পরিবর্তন করুন"},
+  "pa": {"choose_language": "ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ:", "welcome": "ਸਵਾਗਤ ਹੈ!", "create_quiz": "ਕੁਇਜ਼ ਬਣਾਓ", "language": "ਭਾਸ਼ਾ ਬਦਲੋ"},
+  "ko": {"choose_language": "언어를 선택하세요:", "welcome": "환영합니다!", "create_quiz": "퀴즈 만들기", "language": "언어 변경"},
+  "it": {"choose_language": "Si prega di scegliere la tua lingua:", "welcome": "Benvenuto!", "create_quiz": "Crea Quiz", "language": "Cambia lingua"},
+  "tr": {"choose_language": "Lütfen dilinizi seçin:", "welcome": "Hoşgeldiniz!", "create_quiz": "Quiz Oluştur", "language": "Dili değiştir"},
+  "vi": {"choose_language": "Vui lòng chọn ngôn ngữ:", "welcome": "Chào mừng!", "create_quiz": "Tạo Quiz", "language": "Thay đổi ngôn ngữ"},
+  "th": {"choose_language": "โปรดเลือกภาษาของคุณ:", "welcome": "ยินดีต้อนรับ!", "create_quiz": "สร้างแบบทดสอบ", "language": "เปลี่ยนภาษา"},
+  "id": {"choose_language": "Silakan pilih bahasa Anda:", "welcome": "Selamat datang!", "create_quiz": "Buat Quiz", "language": "Ganti bahasa"},
+  "fa": {"choose_language": "لطفاً زبان خود را انتخاب کنید:", "welcome": "خوش آمدید!", "create_quiz": "ایجاد آزمون", "language": "تغییر زبان"},
+  "ur": {"choose_language": "براہ کرم اپنی زبان منتخب کریں:", "welcome": "خوش آمدید!", "create_quiz": "کویز بنائیں", "language": "زبان تبدیل کریں"}
+}
