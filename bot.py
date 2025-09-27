@@ -96,7 +96,7 @@ async def init_db():
         await db.commit()
 
 # --- Start command ---
-@dp.message(CommandStart())
+@dp.message_handler(commands=["start"])
 async def cmd_start(msg: types.Message):
     user_id = msg.from_user.id
     if user_id not in user_lang:
