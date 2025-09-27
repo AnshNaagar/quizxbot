@@ -1,21 +1,24 @@
 {
-  "en": {"language_name":"English","welcome":"Welcome!","choose_language":"Choose your language:","create_quiz":"Create Quiz","create_quiz_instructions":"To create a quiz, use /create_quiz <title> and add questions with /add_question","language":"Language"},
-  "hi": {"language_name":"हिंदी","welcome":"स्वागत है!","choose_language":"अपनी भाषा चुनें:","create_quiz":"क्विज़ बनाएं","create_quiz_instructions":"क्विज़ बनाने के लिए /create_quiz <title> का उपयोग करें और /add_question के साथ प्रश्न जोड़ें","language":"भाषा"},
-  "es": {"language_name":"Español","welcome":"¡Bienvenido!","choose_language":"Elige tu idioma:","create_quiz":"Crear Quiz","create_quiz_instructions":"Para crear un quiz, use /create_quiz <title> y agregue preguntas con /add_question","language":"Idioma"},
-  "fr": {"language_name":"Français","welcome":"Bienvenue!","choose_language":"Choisissez votre langue:","create_quiz":"Créer Quiz","create_quiz_instructions":"Pour créer un quiz, utilisez /create_quiz <title> et ajoutez des questions avec /add_question","language":"Langue"},
-  "de": {"language_name":"Deutsch","welcome":"Willkommen!","choose_language":"Wähle deine Sprache:","create_quiz":"Quiz erstellen","create_quiz_instructions":"Um ein Quiz zu erstellen, benutze /create_quiz <title> und füge Fragen mit /add_question hinzu","language":"Sprache"},
-  "it": {"language_name":"Italiano","welcome":"Benvenuto!","choose_language":"Scegli la tua lingua:","create_quiz":"Crea Quiz","create_quiz_instructions":"Per creare un quiz, usa /create_quiz <title> e aggiungi domande con /add_question","language":"Lingua"},
-  "pt": {"language_name":"Português","welcome":"Bem-vindo!","choose_language":"Escolha seu idioma:","create_quiz":"Criar Quiz","create_quiz_instructions":"Para criar um quiz, use /create_quiz <title> e adicione perguntas com /add_question","language":"Idioma"},
-  "ru": {"language_name":"Русский","welcome":"Добро пожаловать!","choose_language":"Выберите язык:","create_quiz":"Создать викторину","create_quiz_instructions":"Чтобы создать викторину, используйте /create_quiz <title> и добавьте вопросы с помощью /add_question","language":"Язык"},
-  "ja": {"language_name":"日本語","welcome":"ようこそ！","choose_language":"言語を選択:","create_quiz":"クイズ作成","create_quiz_instructions":"クイズを作成するには /create_quiz <title> を使用し、/add_question で質問を追加","language":"言語"},
-  "ko": {"language_name":"한국어","welcome":"환영합니다!","choose_language":"언어를 선택하세요:","create_quiz":"퀴즈 만들기","create_quiz_instructions":"/create_quiz <title>로 퀴즈를 만들고 /add_question으로 질문 추가","language":"언어"},
-  "ar": {"language_name":"العربية","welcome":"مرحبا!","choose_language":"اختر لغتك:","create_quiz":"إنشاء مسابقة","create_quiz_instructions":"لإنشاء مسابقة، استخدم /create_quiz <title> وأضف أسئلة باستخدام /add_question","language":"اللغة"},
-  "zh": {"language_name":"中文","welcome":"欢迎！","choose_language":"选择你的语言:","create_quiz":"创建测验","create_quiz_instructions":"要创建测验，请使用 /create_quiz <title> 并使用 /add_question 添加问题","language":"语言"},
-  "tr": {"language_name":"Türkçe","welcome":"Hoş geldiniz!","choose_language":"Dil seçin:","create_quiz":"Quiz Oluştur","create_quiz_instructions":"/create_quiz <title> ile quiz oluşturun ve /add_question ile sorular ekleyin","language":"Dil"},
-  "nl": {"language_name":"Nederlands","welcome":"Welkom!","choose_language":"Kies je taal:","create_quiz":"Quiz Maken","create_quiz_instructions":"Om een quiz te maken, gebruik /create_quiz <title> en voeg vragen toe met /add_question","language":"Taal"},
-  "pl": {"language_name":"Polski","welcome":"Witaj!","choose_language":"Wybierz język:","create_quiz":"Utwórz Quiz","create_quiz_instructions":"Aby utworzyć quiz, użyj /create_quiz <title> i dodaj pytania za pomocą /add_question","language":"Język"},
-  "sv": {"language_name":"Svenska","welcome":"Välkommen!","choose_language":"Välj språk:","create_quiz":"Skapa Quiz","create_quiz_instructions":"För att skapa ett quiz, använd /create_quiz <title> och lägg till frågor med /add_question","language":"Språk"},
-  "no": {"language_name":"Norsk","welcome":"Velkommen!","choose_language":"Velg språk:","create_quiz":"Lag Quiz","create_quiz_instructions":"For å lage en quiz, bruk /create_quiz <title> og legg til spørsmål med /add_question","language":"Språk"},
-  "da": {"language_name":"Dansk","welcome":"Velkommen!","choose_language":"Vælg sprog:","create_quiz":"Opret Quiz","create_quiz_instructions":"For at oprette en quiz, brug /create_quiz <title> og tilføj spørgsmål med /add_question","language":"Sprog"},
-  "fi": {"language_name":"Suomi","welcome":"Tervetuloa!","choose_language":"Valitse kieli:","create_quiz":"Luo Kysely","create_quiz_instructions":"Luoaksesi kyselyn, käytä /create_quiz <title> ja lisää kysymykset /add_question avulla","language":"Kieli"}
+    "en": {
+        "name": "English",
+        "welcome": "Welcome to QuizBot!",
+        "choose_language": "Choose your language:",
+        "create_quiz": "Create Quiz",
+        "take_quiz": "Take Quiz",
+        "leaderboard": "Leaderboard",
+        "change_lang": "Change Language",
+        "admin_only": "Only admins can perform this action.",
+        "create_quiz_instructions": "Use /create_quiz <Title> to create a quiz. Add questions with /add_question <quiz_id> | Question | opt1 ; opt2 ; ... | answer_index"
+    },
+    "hi": {
+        "name": "हिंदी",
+        "welcome": "QuizBot में आपका स्वागत है!",
+        "choose_language": "अपनी भाषा चुनें:",
+        "create_quiz": "क्विज़ बनाएं",
+        "take_quiz": "क्विज़ लें",
+        "leaderboard": "शीर्षक सूची",
+        "change_lang": "भाषा बदलें",
+        "admin_only": "यह क्रिया केवल एडमिन के लिए है।",
+        "create_quiz_instructions": "/create_quiz <शीर्षक> का उपयोग करके क्विज़ बनाएं। /add_question <quiz_id> | प्रश्न | विकल्प1 ; विकल्प2 ; ... | उत्तर_सूचकांक"
+    }
 }
