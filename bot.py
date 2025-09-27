@@ -6,7 +6,6 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.context import FSMContext
-from aiogram.filters import CommandStart, Text
 import aiosqlite
 from dotenv import load_dotenv
 
@@ -23,11 +22,10 @@ dp = Dispatcher(storage=storage)
 
 DB_FILE = "quizbot.db"
 
-# Load language JSON
+# Load languages
 with open("languages.json", encoding="utf-8") as f:
     LANG_DATA = json.load(f)
 
-# Store user language
 user_lang = {}
 
 # --- Database init ---
@@ -83,7 +81,7 @@ def make_options_kb(qid, options):
     return kb
 
 # --- Commands ---
-@dp.message(CommandStart())
+@dp.message(lambda m: m.text == "/start")
 async def cmd_start(msg: types.Message, state: FSMContext):
     user_id = msg.from_user.id
     if user_id not in user_lang:
@@ -94,19 +92,19 @@ async def cmd_start(msg: types.Message, state: FSMContext):
         await msg.answer(LANG_DATA[lang_code]["welcome"], reply_markup=get_main_menu(lang_code))
 
 # --- Callbacks ---
-@dp.callback_query(Text(startswith="lang_"))
+@dp.callback_query(lambda c: c.data.startswith("lang_"))
 async def set_language(cb: types.CallbackQuery):
     user_id = cb.from_user.id
     lang_code = cb.data.split("_")[1]
     user_lang[user_id] = lang_code
     await cb.message.edit_text(LANG_DATA[lang_code]["welcome"], reply_markup=get_main_menu(lang_code))
 
-@dp.callback_query(Text("change_lang"))
+@dp.callback_query(lambda c: c.data == "change_lang")
 async def change_language(cb: types.CallbackQuery):
     await cb.message.edit_text(LANG_DATA[user_lang.get(cb.from_user.id, "en")]["choose_language"],
                                reply_markup=get_language_keyboard())
 
-@dp.callback_query(Text("create_quiz"))
+@dp.callback_query(lambda c: c.data == "create_quiz")
 async def create_quiz(cb: types.CallbackQuery):
     lang_code = user_lang.get(cb.from_user.id, "en")
     if cb.from_user.id not in ADMIN_IDS:
@@ -114,9 +112,8 @@ async def create_quiz(cb: types.CallbackQuery):
         return
     await cb.message.answer(LANG_DATA[lang_code]["create_quiz_instructions"])
 
-@dp.callback_query(Text("take_quiz"))
+@dp.callback_query(lambda c: c.data == "take_quiz")
 async def take_quiz(cb: types.CallbackQuery, state: FSMContext):
-    # List quizzes as inline buttons
     async with aiosqlite.connect(DB_FILE) as db:
         cur = await db.execute("SELECT id, title FROM quizzes")
         quizzes = await cur.fetchall()
@@ -128,7 +125,7 @@ async def take_quiz(cb: types.CallbackQuery, state: FSMContext):
         kb.add(InlineKeyboardButton(text=f"{q[1]}", callback_data=f"start_quiz|{q[0]}"))
     await cb.message.answer("Select a quiz:", reply_markup=kb)
 
-@dp.callback_query(Text(startswith="start_quiz|"))
+@dp.callback_query(lambda c: c.data.startswith("start_quiz|"))
 async def start_quiz(cb: types.CallbackQuery, state: FSMContext):
     quiz_id = int(cb.data.split("|")[1])
     async with aiosqlite.connect(DB_FILE) as db:
@@ -137,7 +134,6 @@ async def start_quiz(cb: types.CallbackQuery, state: FSMContext):
     if not rows:
         await cb.message.answer("This quiz has no questions yet.")
         return
-    # Save quiz state
     qlist = []
     for r in rows:
         qid, qtext, qopts = r
@@ -148,7 +144,7 @@ async def start_quiz(cb: types.CallbackQuery, state: FSMContext):
     kb = make_options_kb(first["qid"], first["options"])
     await cb.message.answer(f"Question 1/{len(qlist)}:\n{first['text']}", reply_markup=kb)
 
-@dp.callback_query(Text(startswith="ans|"))
+@dp.callback_query(lambda c: c.data.startswith("ans|"))
 async def process_answer(cb: types.CallbackQuery, state: FSMContext):
     await cb.answer()
     parts = cb.data.split("|")
@@ -159,7 +155,6 @@ async def process_answer(cb: types.CallbackQuery, state: FSMContext):
     pointer = data["pointer"]
     correct = data["correct"]
     total = data["total"]
-    # Get correct answer
     async with aiosqlite.connect(DB_FILE) as db:
         cur = await db.execute("SELECT options, answer_index FROM questions WHERE id=?", (qid,))
         row = await cur.fetchone()
@@ -174,7 +169,6 @@ async def process_answer(cb: types.CallbackQuery, state: FSMContext):
     await state.update_data(pointer=pointer, correct=correct)
     await cb.message.answer(reply_text)
     if pointer >= total:
-        # Quiz finished
         async with aiosqlite.connect(DB_FILE) as db:
             await db.execute("INSERT INTO attempts (user_id, username, quiz_id, score, total) VALUES (?, ?, ?, ?, ?)",
                              (cb.from_user.id, cb.from_user.username or "", data["current_quiz"], correct, total))
